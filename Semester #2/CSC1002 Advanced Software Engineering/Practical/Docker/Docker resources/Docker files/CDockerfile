@@ -1,0 +1,5 @@
+FROM gcc:15.2
+WORKDIR ./usr/src/programs
+COPY ./programs/helloworld.c .
+RUN gcc -o helloworld helloworld.c
+CMD ["./helloworld"]

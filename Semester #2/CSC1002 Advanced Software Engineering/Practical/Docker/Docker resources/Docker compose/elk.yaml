@@ -1,0 +1,39 @@
+services:
+ elasticsearch:
+  image: elasticsearch:9.3.2
+  container_name: elasticsearch
+  restart: always
+  ports:
+   - "9200:9200"
+   - "9300:9300"
+  environment:
+   - discovery.type=single-node
+   - ES_JAVA_OPTS=-Xms512m -Xmx512m
+  networks:
+   - elk
+ kibana:
+  image: kibana:9.3.2
+  container_name: kibana
+  restart: always
+  ports:
+   - "5601:5601"
+  environment:
+   - ELASTICSEARCH_HOSTS=http://elasticsearch:9200
+  depends_on:
+   elasticsearch:
+    condition: service_started
+  networks:
+   - elk
+ logstash:
+  image: logstash:9.3.2
+  container_name: logstash
+  restart: always
+  ports:
+   - "5000:5000"
+  depends_on:
+   - elasticsearch
+  networks:
+   - elk
+networks:
+ elk:
+  driver: bridge

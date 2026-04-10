@@ -1,0 +1,6 @@
+FROM openjdk:27-ea-15-slim-bookworm
+WORKDIR /usr/src/programs
+COPY ./programs/Main.java .
+RUN javac Main.java
+ENTRYPOINT ["java"]
+CMD ["Main"]
